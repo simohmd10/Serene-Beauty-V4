@@ -1,0 +1,3 @@
+-- ⚠️  This file is DEPRECATED.
+-- Run SUPABASE_COMPLETE.sql instead — it includes everything in the correct order,
+-- including the atomic transaction function, storage setup, and all RLS policies.

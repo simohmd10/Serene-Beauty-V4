@@ -1,0 +1,3 @@
+-- ⚠️  This file is DEPRECATED.
+-- Run SUPABASE_COMPLETE.sql instead — it merges this file and SUPABASE_SETUP.sql
+-- into a single, safe, idempotent script.
