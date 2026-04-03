@@ -153,10 +153,9 @@ export async function insertOrder(
     p_status:          order.status,
     p_total:           order.total,       // passed but IGNORED by DB
     p_payment_method:  order.paymentMethod,
-    p_items: JSON.stringify(
-      order.items.map((i) => ({
-        product_id: i.productId,
-        quantity:   i.quantity,
+    p_items: order.items.map((i) => ({
+    product_id: i.productId,
+    quantity:   i.quantity,
         // price intentionally omitted — DB fetches from products table
       }))
     ),
