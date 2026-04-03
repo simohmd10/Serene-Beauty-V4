@@ -1,10 +1,8 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { products as initialProducts, Product } from "@/data/products";
+import { Product } from "@/data/products";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useProducts,
-  toRow,
-  seedProducts,
   insertProduct,
   updateProductById,
   deleteProductById,
@@ -23,7 +21,7 @@ export type { Category };
 export interface Order {
   id:            string;
   order_ref:     string;
-  createdAt:     string;   // ISO timestamp — used for sorting
+  createdAt:     string;
   customer:      string;
   email:         string;
   phone:         string;
@@ -32,14 +30,14 @@ export interface Order {
   state:         string;
   zip:           string;
   country:       string;
-  date:          string;   // formatted display string
+  date:          string;
   status:        "pending" | "processing" | "shipped" | "delivered" | "cancelled";
-  total:         number;   // DB-verified total
+  total:         number;
   items: {
-    productId?: string;    // v2: product reference
+    productId?: string;
     name:       string;
     quantity:   number;
-    price:      number;    // DB-verified price at time of order
+    price:      number;
   }[];
   paymentMethod: string;
 }
@@ -89,21 +87,6 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("admin_products");
     localStorage.removeItem("admin_categories");
   }, []);
-
-  // Auto-seed initial products when DB is empty
-  useEffect(() => {
-    if (productsLoading)     return;
-    if (products.length > 0) return;
-
-    const seed = async () => {
-      const rows = initialProducts.map(({ id: _id, ...rest }) => toRow(rest));
-      const ok   = await seedProducts(rows);
-      if (ok) qc.invalidateQueries({ queryKey: ["products"] });
-    };
-
-    seed();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productsLoading, products.length]);
 
   // Product CRUD
   const addProduct = async (product: Omit<Product, "id">) => {
